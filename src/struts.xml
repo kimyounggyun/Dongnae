@@ -206,4 +206,22 @@
 			</package>
 			 -->	
 </package>
+
+<package name="main" extends="struts-default, tiles-default">
+        <action name="main" class="main.LoginAction" method="maincheck">
+          <result type="tiles">main</result>
+       </action>
+       <action name="login" class="main.LoginAction">
+       <result name="success">/main/login_ok.jsp</result>
+       <result name="error">/error/loginerr.jsp</result>
+       </action>
+       
+       <action name="logout" class="main.LoginAction" method="logout" >
+       	<result type="tiles">main</result>
+       </action>
+       
+     
+</package>
+  <!-- 회원가입 박혜경 -->
+	<include file="/configs/member.xml"></include>
 </struts>
