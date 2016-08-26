@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="euc-kr" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+	
+<tiles-definitions>
+
+	<definition name="board" template="/tiles/main_layout.jsp">
+		<put-attribute name="title" value="우리동네" />
+		<put-attribute name="header" value="/tiles/header/member_header.jsp" />
+		<put-attribute name="body" value="/board/boardList.jsp" />
+		<put-attribute name="footer" value="/tiles/footer/footer.jsp" />
+	</definition>
+	
+	<definition name="boardWrite" extends="board">
+		<put-attribute name="body" value="/board/boardWrite.jsp" />
+	</definition>
+	
+	<definition name="boardView" extends="board">
+		<put-attribute name="body" value="/board/boardView.jsp" />
+	</definition>
+	
+	<definition name="boardView" extends="board">
+		<put-attribute name="body" value="/board/boardView.jsp" />
+	</definition>
+	
+	<definition name="boardView" extends="board">
+		<put-attribute name="body" value="/board/boardView.jsp" />
+	</definition>
+	
+	<definition name="boardView" extends="board">
+		<put-attribute name="body" value="/board/boardView.jsp" />
+	</definition>
+	
+	<definition name="ModifyForm" extends="board">
+		<put-attribute name="body" value="/board/boardWrite.jsp" />
+	</definition>
+	
+	<definition name="loginConfirm" extends="board">
+		<put-attribute name="body" value="/tiles/template/loginconfirm.jsp"></put-attribute>
+	</definition>
+	
+</tiles-definitions>
+	
+	
