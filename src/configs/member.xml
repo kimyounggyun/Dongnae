@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>    
+	<!-- 로그인관련 -->
+<package name="member" extends="struts-default, tiles-default">
+		
+		
+			 <!--   회원가입 -->
+       <action name="join" class="main.JoinAction" method="inputform">
+       <result type="tiles">join</result>
+       </action>
+       
+       <action name="joinpro" class="main.JoinAction">
+       <result type="tiles">join_ok</result>
+       </action>
+
+
+	
+		
+
+	 </package>
+
+</struts>

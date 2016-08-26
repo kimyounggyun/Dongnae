@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 
+ 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+ 
+<!-- <sqlMap> -->
+
+<sqlMap>
+
+<!-- 데이터를 꺼낼때 사용할것 설정 -->
+
+
+<typeAlias type="member.MemberDataBean" alias="member"/>
+
+
+
+<resultMap class="member" id="memberRes">
+
+<result column="id" property="id"/>
+
+<result column="passwd" property="passwd"/>
+
+<result column="name" property="name"/>
+
+<result column="nick" property="nick"/>
+
+<result column="sex" property="sex"/>
+
+<result column="birth" property="birth"/>
+
+<result column="email" property="email"/>
+
+<result column="phone" property="phone"/>
+
+<result column="addr" property="addr"/>
+
+<result column="linum" property="linum"/>
+
+<result column="lipic" property="lipic"/>
+
+<result column="regdate" property="regdate"/>
+
+</resultMap>
+
+<!-- 공통으로 사용할 select 절 정의 -->
+
+
+<sql id="select-all"> SELECT * FROM MEMBER </sql>
+
+<!-- 회원가입 -->
+
+
+<insert id="memberInsert" parameterClass="member">
+insert into member ( id, name, passwd, nick, sex,
+ birth, email, phone, addr, linum, lipic, regdate ) 
+values( #id#, #name#, #passwd#, #nick#, #sex#, 
+#birth#, #email#, #phone#, #addr#, #linum#, #lipic#, #regdate# )
+ </insert>
+ 
+ 	<select id="login" resultMap="memberRes" parameterClass="string">
+		select * from member where id = #id#
+	</select>
+
+</sqlMap>
