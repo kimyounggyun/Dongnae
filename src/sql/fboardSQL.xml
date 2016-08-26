@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+
+<!-- SQL구문작성->SQL 실행결과를 VO객체에 맵핑하는 규칙을 정의
+SQL 구문에 부여된 id 속성은 unique해야함 -->
+<sqlMap>
+	<!-- board.boardVO를 board로 줄여서 부름 : DB에서 가져온 데이터를 저장할 객체를 지정 -->
+	<typeAlias alias="board" type="fboard.boardVO" />
+	<!-- <typeAlias alias="comment" type="board.cboardVO" /> -->
+
+	<!-- DB로부터 가져온 데이터를 클래스에 옮겨 담기 위한 설정
+	property는 멤버변수를 의미, column은 테이블의 필드명을 의미
+	id:식별자, class: typeAlias에서 지정한 명칭 -->
+	  <resultMap id="boardRes" class="board">
+		  	<result property="subject" column="subject"/> 
+		  	<result property="nicname" column="nicname"/>
+		  	<result property="main_content" column="main_content"/>
+		  	<result property="tel_number1" column="tel_number1"/>
+		  	<result property="tel_number2" column="tel_number2"/>
+		  	<result property="tel_number3" column="tel_number3"/>
+		  	<result property="operating_hour" column="operating_hour"/>
+		  	<result property="dow" column="dow"/>
+		  	<result property="price" column="price"/>
+		  	<result property="food_type" column="food_type"/>
+		  	<result property="img1_orgname" column="img1_orgName"/>
+		  	<result property="img1_savname" column="img1_savName"/>
+		  	<result property="img2_orgname" column="img2_orgName"/>
+		  	<result property="img2_savname" column="img2_savName"/>
+		  	<result property="img3_orgname" column="img3_orgName"/>
+		  	<result property="img3_savname" column="img3_savName"/>
+		  	<result property="good_number" column="good_number"/>
+		  	<result property="bad_number" column="bad_number"/>
+		  	<result property="com_number" column="com_number"/>
+		  	<result property="regdate" column="regdate"/>
+		  	<result property="moddate" column="moddate"/>
+		  	<result property="no" column="no"/>
+	</resultMap>
+	
+<!-- 	<resultMap id="commentRes" class="comment">
+		<result property="no" column="no"/>
+		<result property="originno" column="originno"/>
+		<result property="name" column="name"/>
+		<result property="content" column="content"/>
+		<result property="regdate" column="regdate"/>
+	</resultMap> -->
+
+	<!-- 반복되는 sql문을 include태그를 활용해 식별자(id)로 사용하기 위함 -->
+	<sql id="select-all">
+		SELECT * FROM FBOARD
+	</sql>
+<!-- 	<sql id="select-com">
+		SELECT * FROM BOARDC
+	</sql> -->
+	<sql id="where-no">
+		WHERE no = #no#
+	</sql>
+<!--
+*resultMap - Object를 return 받을 때 사용
+*resultClass - Integer 등 1개의 value형을 return 받을 때 사용
+*parameterClass - Object를 ibatis DML(#num#, #title#)문에 적용 시키고 싶을 때 사용 -->
+
+	<!-- select태그 안에 적은 sql문의 수행결과를 resultMap에 넘겨줌 -->
+	<select id="selectAll" resultMap="boardRes" parameterClass="int">
+		<include refid="select-all"></include>
+		 ORDER By no DESC
+ 	</select>
+<!--	<select id="commentSelectAll" resultMap="commentRes" parameterClass="int">
+		SELECT * FROM BOARDC WHERE originno = #no# ORDER BY no DESC
+	</select>-->
+	
+	<!-- fboardlist 검색 -->
+	<select id="selectSearchW" resultMap="boardRes" parameterClass="string">
+  		<include refid="select-all" /> 
+  		WHERE nicname like #searchKeyword# ORDER BY no DESC 
+ 	 </select>
+	<select id="selectSearchS" resultMap="boardRes" parameterClass="string">
+ 		 <include refid="select-all" /> 
+ 		 WHERE subject like #searchKeyword# ORDER BY no DESC 
+  	</select>
+	<select id="selectSearchC" resultMap="boardRes" parameterClass="string">
+ 		 <include refid="select-all" /> 
+  		WHERE main_content like #searchKeyword# ORDER BY no DESC 
+  	</select>
+  	<select id="selectSearchT" resultMap="boardRes" parameterClass="string">
+ 		 <include refid="select-all" /> 
+  		WHERE food_type like #searchKeyword# ORDER BY no DESC 
+  	</select>  
+	 
+	
+	<select id="selectOne" resultMap="boardRes" parameterClass="int">
+		<include refid="select-all" />
+		<include refid="where-no" />
+	</select>
+	
+	<select id="selectLastNo" resultClass="board" parameterClass="int">
+		SELECT max(no) as no FROM FBOARD
+		<!-- as "별칭명"/ max(no):no컬럼의 최대값을 가져와 no로 이름을 붙여줌 ==> 별칭을 붙여주는 이유:자바 객체의 no변수에 저장하려고 -->
+	</select>
+<!-- 	<select id="selectPassword" resultMap="boardRes">
+		<include refid="select-all" />
+		<include refid="where-no" />
+		AND password = #password#
+	</select>
+		<select id="selectPassword2" resultMap="commentRes">
+		<include refid="select-com" />
+		<include refid="where-no" />
+		AND password = #password#
+	</select> -->
+	
+	<insert id="insertBoard" parameterClass="board">
+		INSERT INTO FBOARD (SUBJECT, NICNAME, MAIN_CONTENT, TEL_NUMBER1, TEL_NUMBER2, TEL_NUMBER3, OPERATING_HOUR, DOW, PRICE, FOOD_TYPE, IMG1_ORGNAME, IMG1_SAVNAME, IMG2_ORGNAME, IMG2_SAVNAME, IMG3_ORGNAME, IMG3_SAVNAME, GOOD_NUMBER, BAD_NUMBER, COM_NUMBER, REGDATE, MODDATE, NO)
+		VALUES (#subject#, #nicname#, #main_content#, #tel_number1#, #tel_number2#, #tel_number3#, #operating_hour#, #dow#, #price#, #food_type#, #img1_orgname#, #img1_savname#, #img2_orgname#, #img2_savname#, #img3_orgname#, #img3_savname#, #good_number#, #bad_number#, #com_number# #regdate#, #moddate#, FBOARD_NO_SEQ.NEXTVAL)
+	</insert>
+	<!-- <insert id="insertBoardReply" parameterClass="board">
+		INSERT INTO SBOARD2(NO, SUBJECT, NAME, PASSWORD, CONTENT, REGDATE,RE_STEP,RE_LEVEL,REF) VALUES (SBOARD2_NO_SEQ.NEXTVAL, #subject#, #name#, #password#, #content#, #regdate#, #re_step#, #re_level#,#ref#)
+	</insert> 
+  	<insert id="insertComment" parameterClass="comment">
+  		INSERT INTO BOARDC(NO, ORIGINNO, NAME, PASSWORD, CONTENT, REGDATE) VALUES (BOARDC_NO_SEQ.NEXTVAL, #originno#, #name#, #password#, #content#, #regdate#)
+  	</insert>  -->
+
+<!-- 	<update id="updateBoard" parameterClass="board">
+		UPDATE SBOARD2 SET SUBJECT = #subject#, NAME = #name#, PASSWORD = #password#, CONTENT = #content#
+		<include refid="where-no" />
+	</update>
+	<update id="updateFile" parameterClass="board">
+		UPDATE SBOARD2 SET FILE_ORGNAME = #file_orgname#, FILE_SAVNAME = #file_savname#
+		<include refid="where-no" />
+	</update>
+	<update id="updateReadHit" parameterClass="board">
+		UPDATE SBOARD2 SET READHIT = readHit + 1
+		<include refid="where-no" />
+	</update>
+	 <update id="updateReplyStep" parameterClass="board">
+		 UPDATE SBOARD2 SET re_step=re_step+1 WHERE ref=#ref# AND re_step>#re_step#
+	 </update>
+
+	<delete id="deleteBoard" parameterClass="board">
+		DELETE FROM SBOARD2
+		<include refid="where-no" />
+	</delete>
+	<delete id="deleteComment" parameterClass="comment">
+		DELETE FROM BOARDC
+		<include refid="where-no" />
+	</delete> -->
+
+</sqlMap>

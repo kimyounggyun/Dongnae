@@ -19,7 +19,7 @@
             			<property name="JDBC.Password" value="${password}" />
 		</dataSource>
 	</transactionManager>
-	
+	<!-- <sqlMap resource="/sql/memberSQL.xml"/> -->	
 	<sqlMap resource="/sql/freeboardSQL.xml"/>
 	
 </sqlMapConfig>

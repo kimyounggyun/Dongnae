@@ -2,55 +2,60 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">      
-    
-<!-- 용량제한 100MB로 설정 -->
-<struts>
-<constant name="struts.multipart.maxSize" value="104857600" />
 
-<package name="board" extends="struts-default, tiles-default">
-		  
-		 
-		<!-- <global-results>
-			<result name="error">/board/pageError.jsp</result>
-		</global-results>
-		
+<struts>
+	<!--영균 작업 시작 -->
+	<!-- 용량제한 100MB로 설정 -->
+		<constant name="struts.multipart.maxSize" value="104857600" />
+
+		<package name="board" extends="struts-default, tiles-default">
+
+	<!-- 영균 : 에러페이지 관련 (주석처리) -->
+		<!-- 
+		<global-results>
+		<result name="error">/board/pageError.jsp</result>
+		</global-results>		
 		<global-exception-mappings>
 			<exception-mapping result="error" exception="java.lang.Exception"/>
-		</global-exception-mappings> -->	
+		</global-exception-mappings>
+		-->	
 		 
-		<!-- 게시판 리스트 액션. -->
-		<!-- http://localhost:8080/StrutsBoard/listAction.action -->
+	<!-- 게시판 리스트 액션. -->
 		<action name="listAction" class="board.listAction">
 			<result type="tiles">board</result>
 		</action>
+
 	<!-- 게시판 글쓰기 액션 -->
-	<action name="writeForm" class="board.writeAction" method="form">
-	 	<result type="tiles">boardWrite</result>
-	 	<result name="login" type="tiles">loginConfirm</result>
-	</action>
+		<action name="writeForm" class="board.writeAction" method="form">
+		<result type="tiles">boardWrite</result>
+		<result name="login" type="tiles">loginConfirm</result>
+		</action>
 	
-	<action name="writeAction" class="board.writeAction">
+		<action name="writeAction" class="board.writeAction">
 		<result type="redirect-action">
-			<param name="actionName">listAction</param>
+		<param name="actionName">listAction</param>
 		</result>
-	</action>
+		</action>
+
 	<!-- 게시판 답변글쓰기 액션 -->
-	<action name="replyForm" class="board.writeAction" method="reply">
-	 	<result type="chain">writeForm</result>
-	</action>
-	<action name="replyAction" class="board.writeAction">
+		<action name="replyForm" class="board.writeAction" method="reply">
+		<result type="chain">writeForm</result>
+		</action>
+		<action name="replyAction" class="board.writeAction">
 		<result type="redirect-action">
-			<param name="actionName">listAction</param>
+		<param name="actionName">listAction</param>
 		</result>
-	</action>
+		</action>
+
 	<!-- 게시판 글 읽기 액션 -->
-	<action name="viewAction" class="board.viewAction">
+		<action name="viewAction" class="board.viewAction">
 		<result type="tiles">
-			boardView
+		boardView
 		</result>
-	</action>
+		</action>
+
 	<!-- 게시판 파일 다운로드 액션 -->
-	<action name="fileDownloadAction" class="board.viewAction" method="download">
+		<action name="fileDownloadAction" class="board.viewAction" method="download">
 		<result name="success" type="stream">
                 <param name="contentType">binary/octet-stream</param>
                 <param name="inputName">inputStream</param>
@@ -58,48 +63,147 @@
                 <param name="contentLength">${contentLength}</param> 
                 <param name="bufferSize">409600</param>
          </result>
-	</action>
+		</action>
 	
 	<!-- 게시판 수정 액션 -->
-	<action name="modifyForm" class="board.viewAction">
+		<action name="modifyForm" class="board.viewAction">
 		<result type="chain">writeForm</result>
-	</action>
-	
-	<action name="modifyAction" class="board.modifyAction">
+		</action>
+		<action name="modifyAction" class="board.modifyAction">
 		<result type="chain">viewAction</result>
-	</action>
-	
+		</action>
+
 	<!-- 비밀번호 체크 액션 -->
-	<action name="checkForm" class="board.viewAction" method="checkForm">
+		<action name="checkForm" class="board.viewAction" method="checkForm">
 		<result>/board/checkPassword.jsp</result>
-	</action>
-	<action name="checkForm2" class="board.viewAction" method="checkForm">
+		</action>
+		<action name="checkForm2" class="board.viewAction" method="checkForm">
 		<result>/board/checkPassword2.jsp</result>
-	</action>
-	
-	<action name="checkAction" class="board.viewAction" method="checkAction">
+		</action>
+
+	<!-- 글 등록체크 액션 -->
+		<action name="checkAction" class="board.viewAction" method="checkAction">
 		<result name="error">/board/checkError.jsp</result>
 		<result>/board/checkSuccess.jsp</result>
-	</action>
+		</action>
 	
-	<action name="checkAction2" class="board.viewAction" method="checkAction2">
+		<action name="checkAction2" class="board.viewAction" method="checkAction2">
 		<result name="error">/board/checkError.jsp</result>
 		<result>/board/checkSuccess.jsp</result>
-	</action>
-	
-	<action name="deleteAction" class="board.deleteAction">
+		</action>
+
+	<!-- 글 삭제 액션 -->
+		<action name="deleteAction" class="board.deleteAction">
 		<result type="chain">listAction</result>
-	</action>
+		</action>
 	
-	<action name="deleteAction2" class="board.deleteAction" method="execute2">
+		<action name="deleteAction2" class="board.deleteAction" method="execute2">
 		<result type="chain">listAction</result>
-	</action>
+		</action>
 	
 	<!-- 코멘트작성 관련 액션 -->
-	<action name="writeCommentAction" class="board.commentWriteAction">
+		<action name="writeCommentAction" class="board.commentWriteAction">
 		<result type="chain">
 		viewAction
 		</result>
-	</action>
+		</action>
+	</package>
+	<!--영균 작업 끝 -->
+
+	<!-- 미령 작업 시작 -->	
+	<!-- 맛집 -->
+		<package name="fboard" extends="struts-default, tiles-default">
+		<!--에러페이지 주석처리 -->
+		<!-- <global-results> <result name="error">/board/pageError.jsp</result> 
+			</global-results> <global-exception-mappings> <exception-mapping result="error" 
+			exception="java.lang.Exception"/> </global-exception-mappings> -->
+
+		<!--리스트 액션 -->
+		<action name="listAction" class="fboard.listAction">
+			 <result type="tiles">fboardlist</result>
+			 <!-- <result>/fboard/tiles/fboardlist.jsp</result> -->
+		</action>
+
+		<!--글쓰기 액션 -->
+		<!--
+			<action name="writeForm" class="board.writeAction" method="form">
+			<result>/board/boardWrite.jsp</result>
+			</action>
+			<action name="writeAction" class="board.writeAction">
+			<result type="redirect-action">
+			<param name="actionName">listAction</param>
+			</result>
+			</action>
+
+
+		//글보기 액션
+			<action name="viewAction" class="board.viewAction">
+			<result>/board/boardView.jsp</result>
+			</action>
+			
+		//댓글 쓰기 액션
+			<action name="replyForm" class="board.writeAction" method="reply">
+  			<result type="chain">writeForm</result> 
+  			</action>
+  			
+  		//댓글 보기 액션
+  			<action name="replyAction" class="board.writeAction">
+			<result type="redirect-action">
+  			<param name="actionName">listAction</param> 
+  			</result>
+  			</action>
+  			
+  		//파일 다운로드 액션
+			<action name="fileDownloadAction" class="board.viewAction" method="download">
+			<result name="success" type="stream">
+			<param name="contentType">binary/octet-stream</param>
+			<param name="inputName">inputStream</param>
+			<param name="contentDisposition">${contentDisposition}</param>
+			<param name="contentLength">${contentLength}</param> 
+			<param name="bufferSize">4096</param>
+			</result>
+			</action>
+
+		//수정 작성 액션
+			<action name="modifyForm" class="board.viewAction">
+			<result type="chain">writeForm</result> 
+			</action>
+
+		//수정 보기 액션
+			<action name="modifyAction" class="board.modifyAction">
+			<result type="chain">viewAction</result> 
+			</action>
+
+		//체크
+			<action name="checkForm" class="board.viewAction" method="checkForm">
+			<result>/board/checkPassword.jsp</result>
+			</action>
+			<action name="checkAction" class="board.viewAction" method="checkAction">
+			<result name="error">/board/checkError.jsp</result>
+			<result>/board/checkSuccess.jsp</result>
+			</action>
+		
+			<action name="checkForm2" class="board.viewAction" method="checkForm">
+			<result>/board/checkPassword2.jsp</result> 
+			</action>
+			<action name="checkAction2" class="board.viewAction" method="checkAction2">
+			<result name="error">/board/checkError.jsp</result>
+			<result>/board/checkSuccess.jsp</result>
+			</action>
+
+		//삭제액션
+			<action name="deleteAction" class="board.deleteAction">
+			<result type="chain">listAction</result>
+			</action>
+			<action name="deleteAction2" class="board.deleteAction" method="execute2">
+			<result type="chain">listAction</result> 
+			</action>
+
+		//코멘트 액션
+			<action name="writeCommentAction" class="board.commentWriteAction">
+			<result type="chain">viewAction</result> 
+			</action>
+			</package>
+			 -->	
 </package>
 </struts>
