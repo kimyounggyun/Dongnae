@@ -4,7 +4,8 @@
 	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 	
 <tiles-definitions>
-
+	<!-- ¿µ±Õ -->
+	
 	<definition name="board" template="/tiles/main_layout.jsp">
 		<put-attribute name="title" value="¿ì¸®µ¿³×" />
 		<put-attribute name="header" value="/tiles/header/member_header.jsp" />
@@ -38,6 +39,25 @@
 	
 	<definition name="loginConfirm" extends="board">
 		<put-attribute name="body" value="/tiles/template/loginconfirm.jsp"></put-attribute>
+	</definition>
+	
+	<!-- ¹Ì·É -->
+	<definition name="fboardlist" template="/fboard/tiles/template/layout.jsp">
+		<put-attribute name="title" value="¸ÀÁý" />
+		<put-attribute name="header" value="/tiles/header/member_header.jsp" />
+		<put-attribute name="left" value="/fboard/tiles/template/left.jsp" />
+		<put-attribute name="right" value="/fboard/tiles/template/right.jsp" />
+		<put-attribute name="body" value="/fboard/fboardList.jsp" />
+		<put-attribute name="footer" value="/tiles/footer/footer.jsp" />
+	</definition>
+	
+	<definition name="fboardwrite" template="/fboard/tiles/template/layout.jsp">
+		<put-attribute name="title" value="¸ÀÁý ±Û¾²±â" />
+		<put-attribute name="header" value="/tiles/header/member_header.jsp" />
+		<put-attribute name="left" value="/fboard/tiles/template/left.jsp" />
+		<put-attribute name="right" value="/fboard/tiles/template/right.jsp" />
+		<put-attribute name="body" value="/fboard/fboardWrite.jsp" />
+		<put-attribute name="footer" value="/tiles/footer/footer.jsp" />
 	</definition>
 	
 </tiles-definitions>
